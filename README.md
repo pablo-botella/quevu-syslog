@@ -19,7 +19,7 @@ sys, err := qsyslog.Open("billing", qsyslog.Options{
 		return qsyslog.Info
 	},
 })
-alerts, _ := qlog.New("alerts", qlog.WithConsumer(sys), qlog.WithConsumer(screen))
+alerts, _ := qhub.New("alerts", qhub.WithConsumer(sys), qhub.WithConsumer(screen))
 ```
 
 ## Install
