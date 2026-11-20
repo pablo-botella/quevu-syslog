@@ -20,18 +20,18 @@ type intake struct {
 }
 
 func (i *intake) Write(p []byte) (int, error) { return len(p), nil }
-func (i *intake) Append(d []byte) (uint64, error) {
+func (i *intake) Append(d []byte) error {
 	return i.AppendAt(d, time.Now())
 }
-func (i *intake) AppendAt(d []byte, at time.Time) (uint64, error) {
+func (i *intake) AppendAt(d []byte, at time.Time) error {
 	i.mu.Lock()
 	defer i.mu.Unlock()
 	if i.refuse != nil {
-		return 0, i.refuse
+		return i.refuse
 	}
 	i.lines = append(i.lines, string(d))
 	i.times = append(i.times, at)
-	return uint64(len(i.lines)), nil
+	return nil
 }
 func (i *intake) got() []string {
 	i.mu.Lock()

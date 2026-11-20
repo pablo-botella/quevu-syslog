@@ -1,8 +1,8 @@
-// Package qsyslogwrite is a persistent consumer of quevu that writes to the
+// Package qsyslogwrite is a persistent writer of quevu that writes to the
 // log of the operating system: the Event Log on Windows, and what each
 // other system has in its place.
 //
-// It is a consumer like the text file or the SQLite ones: a log sends it
+// It is a writer like the text file or the SQLite ones: a log sends it
 // batches through a queue of its own, it stores them, and it gives
 // nothing back. Reading the system log is somebody else's work.
 //
@@ -57,6 +57,8 @@ type writer interface {
 
 // Device writes the chunks of a log to the system log.
 type Device struct {
+	fails quevu.Failures // the body of Run, and what it could not write
+
 	w   writer
 	opt Options
 	buf []byte
@@ -109,4 +111,13 @@ func (d *Device) Write(batch []quevu.Chunk) error {
 // Close releases the handle to the system log.
 func (d *Device) Close() error { return d.w.close() }
 
-var _ quevu.Consumer = (*Device)(nil)
+var _ quevu.Writer = (*Device)(nil)
+
+// Run receives from the channel the hub gave this writer until it is
+// closed, writing what arrives in batches, and closes the writer at the
+// end. It is what makes it a quevu.Writer.
+func (d *Device) Run(in <-chan quevu.Chunk) error { return d.fails.Drain(in, 0, d) }
+
+// Failed returns the chunks lost so far in failed batches, and the last
+// error.
+func (d *Device) Failed() (uint64, error) { return d.fails.Failed() }

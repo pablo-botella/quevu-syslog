@@ -224,7 +224,7 @@ func (s *Source) run(ctx context.Context) error {
 		}
 		for _, e := range entries {
 			if s.cfg.Source == "" || strings.EqualFold(e.source, s.cfg.Source) {
-				if _, err := s.into.AppendAt([]byte(e.text), e.at); err != nil {
+				if err := s.into.AppendAt([]byte(e.text), e.at); err != nil {
 					// Not delivered: its place is not noted, and the
 					// next run begins with it again.
 					return err

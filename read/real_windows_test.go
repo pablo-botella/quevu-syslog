@@ -22,13 +22,13 @@ type lines struct {
 }
 
 func (l *lines) Write(p []byte) (int, error)     { return len(p), nil }
-func (l *lines) Append(d []byte) (uint64, error) { return l.AppendAt(d, time.Now()) }
-func (l *lines) AppendAt(d []byte, at time.Time) (uint64, error) {
+func (l *lines) Append(d []byte) error { return l.AppendAt(d, time.Now()) }
+func (l *lines) AppendAt(d []byte, at time.Time) error {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.got = append(l.got, string(d))
 	l.at = append(l.at, at)
-	return uint64(len(l.got)), nil
+	return nil
 }
 func (l *lines) with(marker string) []string {
 	l.mu.Lock()

@@ -4,7 +4,7 @@ Go module `github.com/pablo-botella/quevu-syslog`, one `go.mod`, two
 packages that do not import each other:
 
 - `write` (package `qsyslogwrite`): `Open(source, Options)` gives a
-  `Device`, a `quevu.Consumer`. `Register`, `Unregister`, `Registered`.
+  `Device`, a `quevu.Writer`. `Register`, `Unregister`, `Registered`.
 - `read` (package `qsyslogread`): `NewSource(Config, quevu.TimedIntake)`
   gives a `Source`, a unit with `Start`, `Stop`, `Done`, `Read`, `Lost`.
 
