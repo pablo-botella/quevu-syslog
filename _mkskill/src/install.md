@@ -7,5 +7,5 @@ mkskill:
 ## Install
 
 ```
-go get github.com/pablo-botella/quevu-syslogwrite
+go get github.com/pablo-botella/quevu-syslog
 ```
