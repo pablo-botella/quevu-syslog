@@ -6,7 +6,7 @@ mkskill:
 
 # quevu-syslog
 
-A persistent consumer of [quevu](https://github.com/pablo-botella/quevu)
+A persistent consumer of [quevu](https://github.com/pablo-botella/quevu-kernel)
 that writes to the log of the operating system.
 
 | System | Log | State |
