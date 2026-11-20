@@ -1,4 +1,4 @@
-# quevu-syslog
+# quevu-syslogwrite
 
 A persistent consumer of [quevu](https://github.com/pablo-botella/quevu-kernel)
 that writes to the log of the operating system.
@@ -10,13 +10,13 @@ that writes to the log of the operating system.
 | macOS | The unified system log | Not built yet |
 
 ```go
-sys, err := qsyslog.Open("billing", qsyslog.Options{
+sys, err := qsyslogwrite.Open("billing", qsyslogwrite.Options{
 	// A chunk carries no grade of its own: the application says.
-	Level: func(c quevu.Chunk) qsyslog.Level {
+	Level: func(c quevu.Chunk) qsyslogwrite.Level {
 		if bytes.Contains(c.Data, []byte("ERROR")) {
-			return qsyslog.Error
+			return qsyslogwrite.Error
 		}
-		return qsyslog.Info
+		return qsyslogwrite.Info
 	},
 })
 alerts, _ := qhub.New("alerts", qhub.WithConsumer(sys), qhub.WithConsumer(screen))
@@ -25,7 +25,7 @@ alerts, _ := qhub.New("alerts", qhub.WithConsumer(sys), qhub.WithConsumer(screen
 ## Install
 
 ```
-go get github.com/pablo-botella/quevu-syslog
+go get github.com/pablo-botella/quevu-syslogwrite
 ```
 
 ## What it is
@@ -60,7 +60,7 @@ application.
   in front of each one saying the description for the event cannot be
   found, followed by the text.
 - **Registered**: the Event Viewer shows the text cleanly.
-  `qsyslog.Register(source)` records the source in the registry. It needs
+  `qsyslogwrite.Register(source)` records the source in the registry. It needs
   administrator rights and is done once, typically at install time;
   `Unregister` removes it and `Registered` reports which case applies.
 

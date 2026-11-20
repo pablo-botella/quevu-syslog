@@ -1,4 +1,4 @@
-package qsyslog
+package qsyslogwrite
 
 import (
 	"golang.org/x/sys/windows/registry"

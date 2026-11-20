@@ -1,4 +1,4 @@
-module github.com/pablo-botella/quevu-syslog
+module github.com/pablo-botella/quevu-syslogwrite
 
 go 1.26.0
 

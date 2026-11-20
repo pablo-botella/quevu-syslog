@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mkskill>
-  <project id="main" name="quevu-syslog" project-type="Go-Module">
+  <project id="main" name="quevu-syslogwrite" project-type="Go-Module">
     <meta>
-      <module>github.com/pablo-botella/quevu-syslog</module>
+      <module>github.com/pablo-botella/quevu-syslogwrite</module>
       <license>MIT</license>
-      <description>A persistent consumer of quevu for Go that writes to the log of the operating system: the Windows Event Log today, with or without the source registered. Use when working with github.com/pablo-botella/quevu-syslog (package qsyslog) or when part of the output of a quevu log has to reach the system log.</description>
+      <description>A persistent consumer of quevu for Go that writes to the log of the operating system: the Windows Event Log today, with or without the source registered. Use when working with github.com/pablo-botella/quevu-syslogwrite (package qsyslogwrite) or when part of the output of a quevu log has to reach the system log.</description>
     </meta>
   </project>
 </mkskill>

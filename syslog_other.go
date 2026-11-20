@@ -1,6 +1,6 @@
 //go:build !windows
 
-package qsyslog
+package qsyslogwrite
 
 func open(string) (writer, error) { return nil, ErrUnsupported }
 

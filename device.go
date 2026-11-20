@@ -1,4 +1,4 @@
-// Package qsyslog is a persistent consumer of quevu that writes to the
+// Package qsyslogwrite is a persistent consumer of quevu that writes to the
 // log of the operating system: the Event Log on Windows, and what each
 // other system has in its place.
 //
@@ -10,7 +10,7 @@
 // everything an application says: it is usually attached to the log of a
 // piece whose output somebody must see, or behind a filter (see
 // Options.Level and Options.Only).
-package qsyslog
+package qsyslogwrite
 
 import (
 	"errors"
@@ -30,7 +30,7 @@ const (
 
 // ErrUnsupported is returned by Open where this module has no
 // implementation for the system log.
-var ErrUnsupported = errors.New("qsyslog: the system log of this platform is not implemented")
+var ErrUnsupported = errors.New("qsyslogwrite: the system log of this platform is not implemented")
 
 // maxEntry bounds the text of one entry. The Windows Event Log takes
 // strings up to about 31,839 characters; longer chunks are cut, with a
@@ -71,7 +71,7 @@ type Device struct {
 // Viewer displays them.
 func Open(source string, opt Options) (*Device, error) {
 	if source == "" {
-		return nil, errors.New("qsyslog: empty source name")
+		return nil, errors.New("qsyslogwrite: empty source name")
 	}
 	w, err := open(source)
 	if err != nil {

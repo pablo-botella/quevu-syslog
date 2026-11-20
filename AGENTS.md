@@ -1,8 +1,8 @@
-# quevu-syslog - agent notes
+# quevu-syslogwrite - agent notes
 
-Go package `github.com/pablo-botella/quevu-syslog`, imported as
-`qsyslog`: a `quevu.Consumer` over the system log. One public type,
-`qsyslog.Device`, from `Open`. Windows only for now, through
+Go package `github.com/pablo-botella/quevu-syslogwrite`, imported as
+`qsyslogwrite`: a `quevu.Consumer` over the system log. One public type,
+`qsyslogwrite.Device`, from `Open`. Windows only for now, through
 `golang.org/x/sys/windows/svc/eventlog`; on other systems `Open` returns
 `ErrUnsupported`. Whether to build Linux and macOS is not decided: do not
 add them without being asked.
@@ -39,7 +39,7 @@ application.
   in front of each one saying the description for the event cannot be
   found, followed by the text.
 - **Registered**: the Event Viewer shows the text cleanly.
-  `qsyslog.Register(source)` records the source in the registry. It needs
+  `qsyslogwrite.Register(source)` records the source in the registry. It needs
   administrator rights and is done once, typically at install time;
   `Unregister` removes it and `Registered` reports which case applies.
 

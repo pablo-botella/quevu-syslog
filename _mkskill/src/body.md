@@ -36,7 +36,7 @@ application.
   in front of each one saying the description for the event cannot be
   found, followed by the text.
 - **Registered**: the Event Viewer shows the text cleanly.
-  `qsyslog.Register(source)` records the source in the registry. It needs
+  `qsyslogwrite.Register(source)` records the source in the registry. It needs
   administrator rights and is done once, typically at install time;
   `Unregister` removes it and `Registered` reports which case applies.
 
