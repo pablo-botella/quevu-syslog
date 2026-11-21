@@ -24,7 +24,7 @@ is built yet: both answer `ErrUnsupported`.
 ```go
 // one program writes
 out, _ := qsyslogwrite.Open("billing", qsyslogwrite.Options{})
-log, _ := qhub.New("alerts", qhub.WithWriter(out))
+log, _ := quevu.NewQHub("alerts", quevu.WithWriter(out))
 
 // another, maybe later, reads what the first one wrote
 in, _ := qsyslogread.NewSource(qsyslogread.Config{Source: "billing", State: `C:\data\billing.place`}, quevu.NewInlet(hub))
