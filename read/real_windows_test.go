@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	quevu "github.com/pablo-botella/quevu-kernel"
+	"github.com/pablo-botella/quevu"
 	qsyslogread "github.com/pablo-botella/quevu-syslog/read"
 	qsyslogwrite "github.com/pablo-botella/quevu-syslog/write"
 )
@@ -21,8 +21,8 @@ type lines struct {
 	at  []time.Time
 }
 
-func (l *lines) Write(p []byte) (int, error)     { return len(p), nil }
-func (l *lines) Append(d []byte) error { return l.AppendAt(d, time.Now()) }
+func (l *lines) Write(p []byte) (int, error) { return len(p), nil }
+func (l *lines) Append(d []byte) error       { return l.AppendAt(d, time.Now()) }
 func (l *lines) AppendAt(d []byte, at time.Time) error {
 	l.mu.Lock()
 	defer l.mu.Unlock()

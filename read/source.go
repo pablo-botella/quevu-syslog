@@ -22,7 +22,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	quevu "github.com/pablo-botella/quevu-kernel"
+	"github.com/pablo-botella/quevu"
 )
 
 // ErrUnsupported is what NewSource answers on a system whose log cannot

@@ -6,7 +6,7 @@ its own, in a package of its own:
 
 | Package | Import path | What it is |
 |---|---|---|
-| `qsyslogwrite` | `github.com/pablo-botella/quevu-syslog/write` | Writes the chunks of a [quevu](https://github.com/pablo-botella/quevu-kernel) log to the system log |
+| `qsyslogwrite` | `github.com/pablo-botella/quevu-syslog/write` | Writes the chunks of a [quevu](https://github.com/pablo-botella/quevu) log to the system log |
 | `qsyslogread` | `github.com/pablo-botella/quevu-syslog/read` | Reads the system log into a quevu log, going on where it left off |
 
 One repository, one module, two packages: Go links only the one that is

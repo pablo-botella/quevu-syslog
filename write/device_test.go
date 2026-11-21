@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	quevu "github.com/pablo-botella/quevu-kernel"
+	"github.com/pablo-botella/quevu"
 )
 
 type entry struct {

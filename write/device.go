@@ -15,7 +15,7 @@ package qsyslogwrite
 import (
 	"errors"
 
-	quevu "github.com/pablo-botella/quevu-kernel"
+	"github.com/pablo-botella/quevu"
 )
 
 // Level is how much an entry matters, in the three grades every system
