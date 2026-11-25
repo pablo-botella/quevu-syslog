@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pablo-botella/quevu"
+	"github.com/pablo-botella/quevu/qkernel"
 )
 
 // This test writes real entries to the Application log of the machine,
@@ -24,7 +24,7 @@ func TestRealEventLog(t *testing.T) {
 	t.Logf("source registered: %v", Registered(source))
 
 	// The usual case: nobody registered the source.
-	d, err := Open(source, Options{Level: func(c quevu.Chunk) Level {
+	d, err := Open(source, Options{Level: func(c qkernel.Chunk) Level {
 		if strings.Contains(string(c.Data), "wrong") {
 			return Error
 		}
@@ -33,7 +33,7 @@ func TestRealEventLog(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = d.Write([]quevu.Chunk{
+	err = d.Write([]qkernel.Chunk{
 		{Seq: 1, Time: time.Now(), Data: []byte("all good " + marker)},
 		{Seq: 2, Time: time.Now(), Data: []byte("\x1b[31msomething went wrong\x1b[0m " + marker)},
 	})

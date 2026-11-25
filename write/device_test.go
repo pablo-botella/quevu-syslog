@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pablo-botella/quevu"
+	"github.com/pablo-botella/quevu/qkernel"
 )
 
 type entry struct {
@@ -31,10 +31,10 @@ func (r *recorder) write(level Level, text string) error {
 
 func (r *recorder) close() error { r.closed = true; return nil }
 
-func chunks(texts ...string) []quevu.Chunk {
-	out := make([]quevu.Chunk, len(texts))
+func chunks(texts ...string) []qkernel.Chunk {
+	out := make([]qkernel.Chunk, len(texts))
 	for i, t := range texts {
-		out[i] = quevu.Chunk{Seq: uint64(i + 1), Time: time.Now(), Data: []byte(t)}
+		out[i] = qkernel.Chunk{Seq: uint64(i + 1), Time: time.Now(), Data: []byte(t)}
 	}
 	return out
 }
@@ -63,7 +63,7 @@ func TestOneEntryPerChunkAsAConsoleShowsIt(t *testing.T) {
 func TestTheApplicationSaysWhatMattersAndWhatGoesIn(t *testing.T) {
 	r := &recorder{}
 	d := &Device{w: r, opt: Options{
-		Level: func(c quevu.Chunk) Level {
+		Level: func(c qkernel.Chunk) Level {
 			switch {
 			case strings.Contains(string(c.Data), "ERROR"):
 				return Error
@@ -73,7 +73,7 @@ func TestTheApplicationSaysWhatMattersAndWhatGoesIn(t *testing.T) {
 			return Info
 		},
 		// The system log is not the place for everything.
-		Only: func(c quevu.Chunk) bool { return !strings.HasPrefix(string(c.Data), "debug") },
+		Only: func(c qkernel.Chunk) bool { return !strings.HasPrefix(string(c.Data), "debug") },
 	}}
 	d.Write(chunks("debug: tick", "started", "WARN slow", "debug: tock", "ERROR down"))
 	want := []entry{{Info, "started"}, {Warning, "WARN slow"}, {Error, "ERROR down"}}

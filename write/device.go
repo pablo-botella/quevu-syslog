@@ -15,7 +15,7 @@ package qsyslogwrite
 import (
 	"errors"
 
-	"github.com/pablo-botella/quevu"
+	"github.com/pablo-botella/quevu/qkernel"
 )
 
 // Level is how much an entry matters, in the three grades every system
@@ -42,11 +42,11 @@ type Options struct {
 	// Level decides the grade of each chunk. Nil means Info for all: a
 	// chunk carries no grade of its own, so telling an error from a
 	// remark is the application's knowledge.
-	Level func(quevu.Chunk) Level
+	Level func(qkernel.Chunk) Level
 	// Only, if set, decides which chunks are written at all. The rest
 	// are taken and dropped: to the log that feeds this device they
 	// count as consumed.
-	Only func(quevu.Chunk) bool
+	Only func(qkernel.Chunk) bool
 }
 
 // writer is what each platform provides.
@@ -57,7 +57,7 @@ type writer interface {
 
 // Device writes the chunks of a log to the system log.
 type Device struct {
-	fails quevu.Failures // the body of Run, and what it could not write
+	fails qkernel.Failures // the body of Run, and what it could not write
 
 	w   writer
 	opt Options
@@ -85,7 +85,7 @@ func Open(source string, opt Options) (*Device, error) {
 // Write stores a batch: one entry per chunk, in order. The text is the
 // chunk as a console shows it, without the color sequences an
 // application may have written for a terminal.
-func (d *Device) Write(batch []quevu.Chunk) error {
+func (d *Device) Write(batch []qkernel.Chunk) error {
 	var first error
 	for _, c := range batch {
 		if d.opt.Only != nil && !d.opt.Only(c) {
@@ -95,7 +95,7 @@ func (d *Device) Write(batch []quevu.Chunk) error {
 		if d.opt.Level != nil {
 			level = d.opt.Level(c)
 		}
-		d.buf = quevu.PlainText(d.buf[:0], c.Data)
+		d.buf = qkernel.PlainText(d.buf[:0], c.Data)
 		text := string(d.buf)
 		if len(text) > maxEntry {
 			text = text[:maxEntry] + " [...cut]"
@@ -111,12 +111,12 @@ func (d *Device) Write(batch []quevu.Chunk) error {
 // Close releases the handle to the system log.
 func (d *Device) Close() error { return d.w.close() }
 
-var _ quevu.Writer = (*Device)(nil)
+var _ qkernel.Writer = (*Device)(nil)
 
 // Run receives from the channel the hub gave this writer until it is
 // closed, writing what arrives in batches, and closes the writer at the
-// end. It is what makes it a quevu.Writer.
-func (d *Device) Run(in <-chan quevu.Chunk) error { return d.fails.Drain(in, 0, d) }
+// end. It is what makes it a qkernel.Writer.
+func (d *Device) Run(in <-chan qkernel.Chunk) error { return d.fails.Drain(in, 0, d) }
 
 // Failed returns the chunks lost so far in failed batches, and the last
 // error.

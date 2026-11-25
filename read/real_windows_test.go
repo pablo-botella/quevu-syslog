@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pablo-botella/quevu"
 	qsyslogread "github.com/pablo-botella/quevu-syslog/read"
 	qsyslogwrite "github.com/pablo-botella/quevu-syslog/write"
+	"github.com/pablo-botella/quevu/qkernel"
 )
 
 type lines struct {
@@ -71,9 +71,9 @@ func TestThroughTheRealEventLog(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var batch []quevu.Chunk
+		var batch []qkernel.Chunk
 		for i, text := range texts {
-			batch = append(batch, quevu.Chunk{Seq: uint64(i + 1), Time: time.Now(), Data: []byte(text + " " + marker)})
+			batch = append(batch, qkernel.Chunk{Seq: uint64(i + 1), Time: time.Now(), Data: []byte(text + " " + marker)})
 		}
 		if err := d.Write(batch); err != nil {
 			t.Fatal(err)

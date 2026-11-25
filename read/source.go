@@ -22,7 +22,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/pablo-botella/quevu"
+	"github.com/pablo-botella/quevu/qkernel"
 )
 
 // ErrUnsupported is what NewSource answers on a system whose log cannot
@@ -81,8 +81,8 @@ type reader interface {
 // written.
 type Source struct {
 	cfg  Config
-	into quevu.TimedIntake
-	unit quevu.Unit
+	into qkernel.TimedIntake
+	unit qkernel.Unit
 	read atomic.Uint64
 	lost atomic.Uint64
 
@@ -90,7 +90,7 @@ type Source struct {
 }
 
 // NewSource returns the input. Nothing is opened until it is started.
-func NewSource(cfg Config, into quevu.TimedIntake) (*Source, error) {
+func NewSource(cfg Config, into qkernel.TimedIntake) (*Source, error) {
 	if into == nil {
 		return nil, errors.New("qsyslogread: nowhere to write")
 	}
@@ -121,7 +121,7 @@ func (s *Source) Stop(ctx context.Context) error { return s.unit.Stop(ctx) }
 // Done tells when the reading ends by itself, with the error that ended
 // it.
 func (s *Source) Done() <-chan error {
-	if e, ok := s.unit.(quevu.Exiter); ok {
+	if e, ok := s.unit.(qkernel.Exiter); ok {
 		return e.Done()
 	}
 	return nil
@@ -243,4 +243,4 @@ func (s *Source) run(ctx context.Context) error {
 }
 
 // goUnit makes the unit that runs the reading.
-func goUnit(run func(ctx context.Context) error) quevu.Unit { return quevu.Go(run) }
+func goUnit(run func(ctx context.Context) error) qkernel.Unit { return qkernel.Go(run) }
